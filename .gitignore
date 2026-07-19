@@ -1,0 +1,6 @@
+/.cargo/
+/.zed/
+/fuzz/
+/target/
+/Cargo.lock
+/*.sh

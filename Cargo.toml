@@ -1,0 +1,34 @@
+[package]
+name = "nbpc-rs"
+description = "Rust implementation of non-binary polar codes for ternary steganographic embedding"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+keywords = ["steganography", "polar"]
+categories = ["science", "security"]
+repository = "https://github.com/dylanheller/nbpc-rs"
+rust-version = "1.97.0"
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.29", optional = true }
+wide = { version = "1.5.0", optional = true }
+
+[features]
+default = ["wide", "args_validation"]
+# Use SIMD version of the entropy function at `entropy.rs`.
+# If enabled, you might want to set `RUSTFLAGS="-Ctarget-cpu=native"`, too.
+wide = ["dep:wide"]
+# Check the validity of the input data
+# at the start of `hide_X` functions.
+args_validation = []
+# Generate python bindings.
+pyo3 = ["dep:pyo3"]
+
+[profile.release]
+lto = true
+panic = "abort"
+opt-level = 3
+codegen-units = 1
