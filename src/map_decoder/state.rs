@@ -130,10 +130,22 @@ impl<'a> PolarState<'a> {
     #[inline(always)]
     const fn deduce_even(pim: &[f64; 4], pip: &[f64; 4]) -> [f64; 4] {
         [
-            pim[0] * pip[0] + pim[2] * pip[1] + pim[3] * pip[2] + pim[1] * pip[3],
-            pim[1] * pip[0] + pim[3] * pip[1] + pim[2] * pip[2] + pim[0] * pip[3],
-            pim[2] * pip[0] + pim[0] * pip[1] + pim[1] * pip[2] + pim[3] * pip[3],
-            pim[3] * pip[0] + pim[1] * pip[1] + pim[0] * pip[2] + pim[2] * pip[3],
+            pim[0].mul_add(
+                pip[0],
+                pim[2].mul_add(pip[1], pim[3].mul_add(pip[2], pim[1] * pip[3])),
+            ),
+            pim[1].mul_add(
+                pip[0],
+                pim[3].mul_add(pip[1], pim[2].mul_add(pip[2], pim[0] * pip[3])),
+            ),
+            pim[2].mul_add(
+                pip[0],
+                pim[0].mul_add(pip[1], pim[1].mul_add(pip[2], pim[3] * pip[3])),
+            ),
+            pim[3].mul_add(
+                pip[0],
+                pim[1].mul_add(pip[1], pim[0].mul_add(pip[2], pim[2] * pip[3])),
+            ),
         ]
     }
 
