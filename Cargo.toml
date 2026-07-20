@@ -8,6 +8,11 @@ keywords = ["steganography", "polar"]
 categories = ["science", "security"]
 repository = "https://github.com/dylanheller/nbpc-rs"
 rust-version = "1.97.0"
+include = [
+    "src/",
+    "Cargo.toml",
+    "README.md"
+]
 
 [lib]
 crate-type = ["rlib", "cdylib"]
