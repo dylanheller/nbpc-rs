@@ -1,19 +1,27 @@
-use std::ops::{Div, Mul};
+use std::{
+    fmt::{Binary, Debug, Display, LowerExp, LowerHex, Octal, UpperExp, UpperHex},
+    hash::Hash,
+    iter::{Product, Sum},
+    ops::{
+        Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div,
+        DivAssign, Mul, MulAssign, Neg, Not, Rem, RemAssign, Shl, ShlAssign, Shr, ShrAssign, Sub,
+        SubAssign,
+    },
+    str::FromStr,
+};
 
 mod seal {
-    pub trait SealedUnsigned {}
+    pub trait Sealed {}
 
-    impl SealedUnsigned for u8 {}
-    impl SealedUnsigned for u16 {}
-    impl SealedUnsigned for u32 {}
-    impl SealedUnsigned for u64 {}
-    impl SealedUnsigned for u128 {}
-    impl SealedUnsigned for usize {}
+    impl Sealed for u8 {}
+    impl Sealed for u16 {}
+    impl Sealed for u32 {}
+    impl Sealed for u64 {}
+    impl Sealed for u128 {}
+    impl Sealed for usize {}
 
-    pub trait SealedFloat {}
-
-    impl SealedFloat for f32 {}
-    impl SealedFloat for f64 {}
+    impl Sealed for f32 {}
+    impl Sealed for f64 {}
 }
 
 pub trait Unsigned:
