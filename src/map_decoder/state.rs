@@ -139,28 +139,23 @@ impl<'a> PolarState<'a> {
 
     #[inline(always)]
     const fn deduce_odd(pim: &[f64; 4], pip: &[f64; 4], uim: usize) -> [f64; 4] {
-        let mut prob = [
-            pim[GF4_ADD_GAMMA_MUL[uim][0] as usize] * pip[0],
-            pim[GF4_ADD_GAMMA_MUL[uim][1] as usize] * pip[1],
-            pim[GF4_ADD_GAMMA_MUL[uim][2] as usize] * pip[2],
-            pim[GF4_ADD_GAMMA_MUL[uim][3] as usize] * pip[3],
-        ];
-        let sum = prob[0] + prob[1] + prob[2] + prob[3];
+        let p0 = pim[GF4_ADD_GAMMA_MUL[uim][0] as usize] * pip[0];
+        let p1 = pim[GF4_ADD_GAMMA_MUL[uim][1] as usize] * pip[1];
+        let p2 = pim[GF4_ADD_GAMMA_MUL[uim][2] as usize] * pip[2];
+        let p3 = pim[GF4_ADD_GAMMA_MUL[uim][3] as usize] * pip[3];
+        let sum = p0 + p1 + p2 + p3;
         // Avoiding `inf` in `sum.recip()`.
         if sum < 5.562684646268003e-309 {
-            prob[0] = 0.25;
-            prob[1] = 0.25;
-            prob[2] = 0.25;
-            prob[3] = 0.25;
+            [0.25; 4]
         } else {
             let sum_recip = sum.recip();
-            debug_assert!(sum_recip.is_finite() && sum_recip.is_sign_positive());
-            prob[0] *= sum_recip;
-            prob[1] *= sum_recip;
-            prob[2] *= sum_recip;
-            prob[3] *= sum_recip;
+            [
+                p0 * sum_recip,
+                p1 * sum_recip,
+                p2 * sum_recip,
+                p3 * sum_recip,
+            ]
         }
-        prob
     }
 
     #[inline(always)]
